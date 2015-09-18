@@ -11,24 +11,33 @@ testApp.Task = Backbone.Model.extend({
 
     //валидация номера задания и балллов за ответы
     validate: function(attrs) {
-        console.log('validating Task!!! this', this);
-        var message = false;
+        console.log('validating Task!!! this', this, attrs);
+        var messageArr = [];
 
         _.each(attrs.answer_points, function(elem, index) {
             console.log('doing validation1', elem, index);
             if(elem !== '') {
-                if (!$.isNumeric(elem)) message = ' Баллы за ответы должны быть числами';
+                if (!$.isNumeric(elem)) messageArr.push('Баллы за ответы должны быть числами');
+            }
+        });
+
+        _.each(attrs.taskTimerData, function(elem, index) {
+            console.log('doing validation1', elem, index);
+            if(elem !== '') {
+                if (!$.isNumeric(elem)) messageArr.push('Время должно быть указано числами');
+                if(elem < 0) messageArr.push('Время не должно содержать отрицательных значений');
             }
         });
 
         if(attrs.order_num !== '') {
-            if(!$.isNumeric(attrs.order_num)) message = attrs.order_num + ' Порядковый номер должен быть числом';
+            if(!$.isNumeric(attrs.order_num)) messageArr.push('Порядковый номер должен быть числом');
         }
-        if(attrs.order_num < 0) message = attrs.order_num + ' Порядковый номер должен быть больше 0';
+        if(attrs.order_num < 0) messageArr.push('Порядковый номер должен быть положительным числом');
 
-        if(message.length > 0) {
-            console.log('Ошибка валидации: ' + message);
-            return 'Ошибка валидации: ' + message;
+        if(messageArr.length > 0) {
+            messageArr.unshift('Валидация не пройдена:');
+            message = messageArr.join('<br>');
+            return message;
         }
     },
 

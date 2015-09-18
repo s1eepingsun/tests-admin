@@ -11,7 +11,6 @@ testApp.TaskListView = Backbone.View.extend({
 
     //отображает шаблон списка задач
     render: function(id) {
-        var that = this;
         var data = this.model;
         var rendered = this.template(data);
         $(this.el).html(rendered);

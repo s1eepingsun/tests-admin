@@ -26,6 +26,13 @@ foreach($testData['tasks'] as $key => $task) {
         $taskPoints += $answerPoints;
     }
     $testData['tasks'][$key]['max_points'] = $taskPoints ;
+
+    //timer data timestamp to array
+    if(isset($task['taskTimerData'])) {
+        $testData['tasks'][$key]['taskTimerData'] = $testsDB->timestampToArray($task['taskTimerData']);
+    }
+
+
 }
 
 //подключить шаблон центральный шаблон админки

@@ -11,6 +11,7 @@ testApp.MainTestView = Backbone.View.extend({
     render: function(id) {
         var that = this;
         var data = this.model;
+        console.log('main view data', data);
         var rendered = this.template(data);
         $(this.el).html(rendered);
 

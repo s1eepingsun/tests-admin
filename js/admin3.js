@@ -46,6 +46,17 @@ testApp.init = function() {
     testApp.testEdit = new testApp.TestEdit({model: testApp.testInfo});
 };
 
+//модуль для кэша селекторов jquery
+(function($){
+    $.selector_cache = function (selector) {
+        if (!$.selector_cache[selector]) {
+            $.selector_cache[selector] = $(selector);
+        }
+
+        return $.selector_cache[selector];
+    };
+})(jQuery);
+
 //регистрация хэлперов handlebars.js
 function registerHandlebarsHelpers() {
     //для показа индекса, начинающегося с 1

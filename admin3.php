@@ -40,6 +40,7 @@ ini_set('display_errors', 1);
     <script type="text/javascript" src="../mathjax/MathJax.js?config=TeX-AMS_HTML"></script>
 
     <!-- modules -->
+    <script type="text/javascript" src="js/Timer.js"></script>
     <script type="text/javascript" src="js/models/Task.js"></script>
     <script type="text/javascript" src="js/models/TestInfo.js"></script>
     <script type="text/javascript" src="js/collections/TestTasks.js"></script>
@@ -152,6 +153,14 @@ ini_set('display_errors', 1);
                             <div class="row">
                                 <div class="col-xs-6 col-sm-4 col-xl-3"><label>Порядковый номер</label></div>
                                 <div class="col-xs-6 col-sm-8 col-xl-9"><input type="text" class="form-input form-control" name="order_num" maxlength="10" size="6"></div>
+                            </div>
+                        </div>
+                        <div class="task-time">
+                            <div><label>Время на выполнение задания</label></div>
+                            <div class="form-group">
+                                <label>Часов: <input type="text" class="form-input form-control" name="task_hours" maxlength="4" size="2" value=""></label>&nbsp;
+                                <label>Минут: <input type="text" class="form-input form-control" name="task_minutes" maxlength="4" size="2" value=""></label>&nbsp;
+                                <label>Секунд: <input type="text" class="form-input form-control" name="task_seconds" maxlength="4" size="2" value=""></label>
                             </div>
                         </div>
                         <div class="clear">&nbsp;</div>

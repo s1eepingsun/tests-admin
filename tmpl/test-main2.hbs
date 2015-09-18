@@ -1,6 +1,11 @@
 {{#models}}
 {{#attributes}}
     <div class="single-test-data" id="vn{{id}}">
+        <div class="task-time-data">
+            {{#each taskTimerData}}
+            {{#.}}  {{{.}}}  {{/.}}
+            {{/each}}
+        </div>
         <div class="task-number"><b>{{type}} №{{#plus1}}{{@index}}{{/plus1}}</b></div>
         <div class="task-content">{{{task_content}}}</div>
         <div class="clear">&nbsp;</div>

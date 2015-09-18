@@ -9,20 +9,29 @@ testApp.TestInfo = Backbone.Model.extend({
     //валидация времени на выполнение теста
     validate: function(attrs) {
         console.log('validating TestInfo!!!', attrs);
-        var message = false;
+        var messageArr = [];
 
-        attrsToValidate = [attrs.test_hours, attrs.test_minutes, attrs.test_seconds];
+        /*attrsToValidate = [attrs.test_hours, attrs.test_minutes, attrs.test_seconds];
         console.log('attrsToValidate', attrsToValidate);
 
         attrsToValidate.forEach(function(item, i) {
             console.log('doing validation2', item, i);
-            if(!$.isNumeric(item)) message = ' Время на выполнение должно быть указано числами';
-            if(item < 0) message = ' Время не должно содержать отрицательных значений';
+            if(!$.isNumeric(item)) messageArr.push('Время должно быть указано числами');
+            if(item < 0) messageArr.push('Время не должно содержать отрицательных значений');
+        });*/
+
+        _.each(attrs.testTimerData, function(elem, index) {
+            console.log('doing validation1', elem, index);
+            if(elem !== '') {
+                if (!$.isNumeric(elem)) messageArr.push('Время должно быть указано числами');
+                if(elem < 0) messageArr.push('Время не должно содержать отрицательных значений');
+            }
         });
 
-        if(message.length > 0) {
-            console.log('Ошибка валидации: ' + message);
-            return 'Ошибка валидации: ' + message;
+        if(messageArr.length > 0) {
+            messageArr.unshift('Валидация не пройдена:');
+            message = messageArr.join('<br>');
+            return message;
         }
     },
 

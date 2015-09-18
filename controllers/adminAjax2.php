@@ -5,10 +5,10 @@ require_once("../classes/TestsDB2.php");
 
 
 //start logs block
-        $data = $_SERVER['REQUEST_URI'];
+//        $data = $_SERVER['REQUEST_URI'];
     //    $data = $_SERVER['REQUEST_METHOD'];
-//    $data = $_REQUEST;
-    file_put_contents('../../newtest2/test-data/test.json', $data);
+    $data = $_REQUEST;
+    file_put_contents('./test.json', $data);
 //end logs block
 
 if(isset($_REQUEST['_method'])) {

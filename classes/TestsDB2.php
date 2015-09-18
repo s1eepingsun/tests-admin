@@ -52,25 +52,42 @@ class TestsDB
         }
 
         //время на тест
-        $timerData = array();
+       /* $timerData = array();
         if(($model['test_hours'] != 0 || $model['test_minutes'] != 0 || $model['test_seconds'] != 0) &&
             ($model['test_hours'] != '' || $model['test_minutes'] != '' || $model['test_seconds'] != '')) {
             $timerData['h'] = intval($model['test_hours']);
             $timerData['m'] = intval($model['test_minutes']);
             $timerData['s'] = intval($model['test_seconds']);
-        } else if(isset($oldData['timerData'])) {
-            $timerData = $oldData['timerData'];
+        } else if(isset($oldData['testTimerData'])) {
+            $timerData = $oldData['testTimerData'];
         } else {
             $timerData['h'] = 0;
             $timerData['m'] = 30;
             $timerData['s'] = 0;
+        }*/
+
+        //если время на выполнение теста не валидное, удалить его
+        foreach($model['testTimerData'] as $key => $value) {
+            if(!is_numeric($value) || $value == '') $value = 0;
+            if($value < 0) $value = -$value;
+            $model['testTimerData'][$key] = intval($value);
         }
+
+        //записывает время числом (в миллисекундах)
+        $timestamp = ($model['testTimerData']['test_seconds'] +
+                $model['testTimerData']['test_minutes'] * 60 +
+                $model['testTimerData']['test_hours'] * 3600) * 1000;
+
+        $model['testTimerData'] = $timestamp;
+        if(!is_numeric($timestamp) || $timestamp <= 0) unset($model['testTimerData']);
+
 
         //запись и перемещение ответов и баллов в отдельные массивы
         $oldData['start_message'] = $startMessage;
         $oldData['description'] = $description;
         $oldData['in_task_description'] = $inTaskDescription;
-        $oldData['timerData'] = $timerData;
+        $oldData['testTimerData'] = $model['testTimerData'];
+        unset($oldData['timerData']);
 
         $newData = json_encode($oldData);
 
@@ -137,6 +154,22 @@ class TestsDB
                 $oldData = array();
             }
         }
+
+        //если время на выполнение задания не валидное, удалить его
+        foreach($model['taskTimerData'] as $key => $value) {
+            if(!is_numeric($value) || $value == '') $value = 0;
+            if($value < 0) $value = -$value;
+            $model['taskTimerData'][$key] = intval($value);
+        }
+
+        //записывает время числом (в миллисекундах)
+        $timestamp = ($model['taskTimerData']['task_seconds'] +
+                      $model['taskTimerData']['task_minutes'] * 60 +
+                      $model['taskTimerData']['task_hours'] * 3600) * 1000;
+
+        $model['taskTimerData'] = $timestamp;
+        if(!is_numeric($model['taskTimerData']) || $model['taskTimerData'] <= 0) unset($model['taskTimerData']);
+
 
         $oldData['tasks'][$id] = $model;
 
@@ -243,6 +276,33 @@ class TestsDB
         } else {
             echo 'error, failed to fwrite short data<br>';
         }
+    }
+
+    //перевод времени из таймстампа (в миллисекундах) в массив
+    public function timestampToArray($timestamp) {
+        $timeArr = array();
+
+        $seconds = $timestamp/1000;
+
+        //hours
+        $timeArr['h'] = [];
+        if($seconds > 3600) {
+            $timeArr['h'] = floor($seconds/3600);
+            $seconds = $seconds%3600;
+        }
+        if(count( $timeArr['h']) == 0) $timeArr['h'] = 0;
+
+        //minutes
+        $timeArr['m'] = [];
+        if($seconds > 60) {
+            $timeArr['m'] = floor($seconds/60);
+            $seconds = $seconds%60;
+        }
+        if(count( $timeArr['m']) == 0) $timeArr['m'] = 0;
+
+        $timeArr['s'] = floor($seconds);
+
+        return $timeArr;
     }
 
 
