@@ -28,10 +28,10 @@ testApp.MainTestView = Backbone.View.extend({
         this.activeTaskID = id; //for active task id to be available for other functions
         console.log('mainTest show Task: ', id);
         console.log('mainTest this', this);
-        $('.start-message').hide();
+        $.cache('.start-message').hide();
         $('.single-test-data').hide();
         $('#vn' + id).show();
-        $('#field').find('.in-task-description').show();
+        $.cache('#field').find('.in-task-description').show();
     }
 
 });

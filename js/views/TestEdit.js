@@ -65,7 +65,7 @@ testApp.TestEdit = Backbone.View.extend({
         console.log('size of collection: ', _.size(testApp.testTasks.models));
 
         //переносит данные из редактора ckeditor в поля textarea формы, без этого будут пустые строки вместо данных
-        $.selector_cache('#task-form').find('textarea.mce-content-body').each(function () {
+        $.cache('#task-form').find('textarea.mce-content-body').each(function () {
             var textareaId = $(this).attr('id');
             var editorData = CKEDITOR.instances[textareaId].getData();
             $(this).val(editorData);
@@ -73,7 +73,7 @@ testApp.TestEdit = Backbone.View.extend({
 
         console.log('a1 submitTask done');
 
-        var formDataArr = $.selector_cache('#task-form').serializeArray();
+        var formDataArr = $.cache('#task-form').serializeArray();
         console.log('formDataArr : ', formDataArr);
 
         //запись данных из формы в объект
@@ -134,7 +134,7 @@ testApp.TestEdit = Backbone.View.extend({
         console.log('submitTestInfo a1 before Timeout', that.a1.state(),  this.a1);
 
         //переносит данные из редактора ckeditor в поля textarea формы, без этого будут пустые строки вместо данных
-        $.selector_cache('#test-general-form').find('textarea.mce-content-body').each(function () {
+        $.cache('#test-general-form').find('textarea.mce-content-body').each(function () {
             var textareaId = $(this).attr('id');
             var editorData = CKEDITOR.instances[textareaId].getData();
             console.log('textareaId', textareaId);
@@ -143,7 +143,7 @@ testApp.TestEdit = Backbone.View.extend({
         });
 
         console.log('submitTestInfo a1 after Timeout', that.a1.state(), that.a1);
-        var formDataArr = $.selector_cache('#test-general-form').serializeArray();
+        var formDataArr = $.cache('#test-general-form').serializeArray();
         console.log('formDataArr : ', formDataArr);
 
         //запись данных из формы в объект
@@ -189,7 +189,7 @@ testApp.TestEdit = Backbone.View.extend({
 
         for(property in data.answer_points) {
             if (data.answer_points.hasOwnProperty(property)) {
-                $.selector_cache('#task-form').find('input[name="' + property + '"]').val(data.answer_points[property]);
+                $.cache('#task-form').find('input[name="' + property + '"]').val(data.answer_points[property]);
             }
         }
 
@@ -208,28 +208,28 @@ testApp.TestEdit = Backbone.View.extend({
                     console.log('taskTimerData property', property);
                     switch(property) {
                         case 'h':
-                            $.selector_cache('#task-form').find('input[name="task_hours"]').val(data.taskTimerData[property]);
+                            $.cache('#task-form').find('input[name="task_hours"]').val(data.taskTimerData[property]);
                             break;
                         case 'm':
-                            $.selector_cache('#task-form').find('input[name="task_minutes"]').val(data.taskTimerData[property]);
+                            $.cache('#task-form').find('input[name="task_minutes"]').val(data.taskTimerData[property]);
                             break;
                         case 's':
-                            $.selector_cache('#task-form').find('input[name="task_seconds"]').val(data.taskTimerData[property]);
+                            $.cache('#task-form').find('input[name="task_seconds"]').val(data.taskTimerData[property]);
                             break;
                     }
                 }
             }
         } else {
-            $.selector_cache('#task-form').find('input[name="task_hours"]').val('');
-            $.selector_cache('#task-form').find('input[name="task_minutes"]').val('');
-            $.selector_cache('#task-form').find('input[name="task_seconds"]').val('');
+            $.cache('#task-form').find('input[name="task_hours"]').val('');
+            $.cache('#task-form').find('input[name="task_minutes"]').val('');
+            $.cache('#task-form').find('input[name="task_seconds"]').val('');
         }
 
 
-        $.selector_cache('#task-form').find('input[name="order_num"]').val(data.order_num);
-        $.selector_cache('#task-form').find('input[name="type"]').val(data.type);
-        $.selector_cache('#cke_editor1').find('.cke_wysiwyg_frame').contents().find('body').html(data.task_content);
-        $.selector_cache('#task-form').find('input[type="hidden"]').val(data.id);
+        $.cache('#task-form').find('input[name="order_num"]').val(data.order_num);
+        $.cache('#task-form').find('input[name="type"]').val(data.type);
+        $.cache('#cke_editor1').find('.cke_wysiwyg_frame').contents().find('body').html(data.task_content);
+        $.cache('#task-form').find('input[type="hidden"]').val(data.id);
 
         testApp.testEdit.showTaskEditBlock();
     },
@@ -240,72 +240,72 @@ testApp.TestEdit = Backbone.View.extend({
         timer = new Timer();
         console.log('showTestInfo ', data);
 
-        $.selector_cache('#cke_editor-d1').find('.cke_wysiwyg_frame').contents().find('body').html(data.description);
-        $.selector_cache('#cke_editor-d2').find('.cke_wysiwyg_frame').contents().find('body').html(data.in_task_description);
-        $.selector_cache('#cke_editor-m1').find('.cke_wysiwyg_frame').contents().find('body').html(data.start_message);
+        $.cache('#cke_editor-d1').find('.cke_wysiwyg_frame').contents().find('body').html(data.description);
+        $.cache('#cke_editor-d2').find('.cke_wysiwyg_frame').contents().find('body').html(data.in_task_description);
+        $.cache('#cke_editor-m1').find('.cke_wysiwyg_frame').contents().find('body').html(data.start_message);
 
 
         data.testTimerData = timer.timeToObject(data.testTimerData);
-        $.selector_cache('#test-general-form').find('input[name="test_hours"]').val(data.testTimerData.h);
-        $.selector_cache('#test-general-form').find('input[name="test_minutes"]').val(data.testTimerData.m);
-        $.selector_cache('#test-general-form').find('input[name="test_seconds"]').val(data.testTimerData.s);
+        $.cache('#test-general-form').find('input[name="test_hours"]').val(data.testTimerData.h);
+        $.cache('#test-general-form').find('input[name="test_minutes"]').val(data.testTimerData.m);
+        $.cache('#test-general-form').find('input[name="test_seconds"]').val(data.testTimerData.s);
 
         //убрирает показ ошибки валидации задания
-        $.selector_cache('#task-form').find('.response').hide();
+        $.cache('#task-form').find('.response').hide();
     },
 
     //показ ошибок валидации в задаче
     showInvalidTask: function(error) {
         console.log('Ошибка валидации: ', error);
-        $.selector_cache('#task-form').find('.response').html(error);
-        $.selector_cache('#task-form').find('.response').show();
+        $.cache('#task-form').find('.response').html(error);
+        $.cache('#task-form').find('.response').show();
     },
 
     //показ ошибок валидации в общей информации о тесте
     showInvalidTestInfo: function(error) {
         console.log('Ошибка валидации: ', error);
-        $.selector_cache('#test-general-form').find('.response').html(error);
-        $.selector_cache('#test-general-form').find('.response').show();
+        $.cache('#test-general-form').find('.response').html(error);
+        $.cache('#test-general-form').find('.response').show();
     },
 
     //показывает что данные записаны успешно
     taskSaved: function(successText) {
-        $.selector_cache('#task-form').find('.response').html(successText);
-        $.selector_cache('#task-form').find('.response').show();
+        $.cache('#task-form').find('.response').html(successText);
+        $.cache('#task-form').find('.response').show();
     },
 
     //показывает что данные записаны успешно
     testInfoSaved: function(successText) {
-        $.selector_cache('#test-general-form').find('.response').html(successText);
-        $.selector_cache('#test-general-form').find('.response').show();
+        $.cache('#test-general-form').find('.response').html(successText);
+        $.cache('#test-general-form').find('.response').show();
     },
 
     //показывает блок редактирования общих данных о тесте
     showTestInfoBlock: function() {
-        $.selector_cache('#task-form').hide();
-        $.selector_cache('#test-general-form').show();
+        $.cache('#task-form').hide();
+        $.cache('#test-general-form').show();
     },
 
     //показывает блок редактирования задания
     showTaskEditBlock: function() {
-        $.selector_cache('#task-form').show();
-        $.selector_cache('#test-general-form').hide();
+        $.cache('#task-form').show();
+        $.cache('#test-general-form').hide();
     },
 
     //обнуляет данные в форме редактирования задания (включая id)
     clearTaskBlock: function() {
-        $.selector_cache('#cke_editor1').find('.cke_wysiwyg_frame').contents().find('body').html('');
-        $.selector_cache('#task-form').find('input[name="order_num"]').val('');
-        $.selector_cache('#task-form').find('input[name="type"]').val('');
-        $.selector_cache('#task-form').find('input[type="hidden"]').val('');//обнуляет id
+        $.cache('#cke_editor1').find('.cke_wysiwyg_frame').contents().find('body').html('');
+        $.cache('#task-form').find('input[name="order_num"]').val('');
+        $.cache('#task-form').find('input[name="type"]').val('');
+        $.cache('#task-form').find('input[type="hidden"]').val('');//обнуляет id
         for(var i = 1; i<=6; i++) {
             $('#cke_editor-a' + i).find('.cke_wysiwyg_frame').contents().find('body').html('');
-            $.selector_cache('#task-form').find('input[name="answer' + i + '_points"]').val('');
+            $.cache('#task-form').find('input[name="answer' + i + '_points"]').val('');
         }
 
         //показывает блок редактирования задания
-        $.selector_cache('#task-form').show();
-        $.selector_cache('#test-general-form').hide();
+        $.cache('#task-form').show();
+        $.cache('#test-general-form').hide();
     }
 
 });

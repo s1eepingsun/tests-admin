@@ -272,9 +272,9 @@ class TestsDB
         $shortData = json_encode($shortData);
 
         if(file_put_contents($shortFile, $shortData)) {
-            echo 'short version of test file has been created!<br>';
+//            echo 'short version of test file has been created!<br>';
         } else {
-            echo 'error, failed to fwrite short data<br>';
+//            echo 'error, failed to fwrite short data<br>';
         }
     }
 

@@ -38,6 +38,7 @@ switch($method) {
         if (isset($model['answers']) || isset($model['task_content'])) {
             $testsDB->setTask($model);
             $testsDB->resetOrderValues();
+            $testsDB->createShortVersion();
             break;
         } else {
             $testsDB->setTestInfo($model);
@@ -49,6 +50,7 @@ switch($method) {
         if (isset($model['answers']) || isset($model['task_content'])) {
             $testsDB->setTask($model);
             $testsDB->resetOrderValues();
+            $testsDB->createShortVersion();
             break;
         } else {
             $testsDB->setTestInfo($model);
@@ -62,6 +64,7 @@ switch($method) {
         $id = $matches[1];
         $testsDB->deleteTask($id);
         $testsDB->resetOrderValues();
+        $testsDB->createShortVersion();
         break;
 }
 

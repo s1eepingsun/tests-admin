@@ -12,10 +12,11 @@ testApp.TaskListView = Backbone.View.extend({
     //отображает шаблон списка задач
     render: function(id) {
         var data = this.model;
+        console.log('--------------------- render data', data);
         var rendered = this.template(data);
         $(this.el).html(rendered);
         $(this.el).show(0, function() {
-            $('#left-side-bar').find('.task-item').removeClass('active-task');
+            $.cache('#left-side-bar').find('.task-item').removeClass('active-task');
             $('#qn' + id).addClass('active-task');
         });
         return this;
@@ -38,12 +39,11 @@ testApp.TaskListView = Backbone.View.extend({
 
         //передаёт обработчик в модель
         testApp.testTasks.trigger('test:selectTask', id);
-
     },
 
     //подсвечивает задание
     highlightTask: function(id) {
-        $('#left-side-bar').find('.task-item').removeClass('active-task');
+        $.cache('#left-side-bar').find('.task-item').removeClass('active-task');
         $('#qn' + id).addClass('active-task');
     }
 

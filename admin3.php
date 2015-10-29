@@ -18,6 +18,8 @@ ini_set('display_errors', 1);
     <link media="screen" href="./Example_files/game-layout.css" rel="stylesheet" type="text/css">
     <link media="screen" href="css/test-main.css" rel="stylesheet" type="text/css">
     <link href="css/admin3.css" rel="stylesheet" type="text/css">
+    <link href="css/file-browser.css" rel="stylesheet" type="text/css">
+
 
     <!-- assigning php data to js variable -->
     <?php include 'controllers/testDataToJS.php'; ?>
@@ -38,6 +40,8 @@ ini_set('display_errors', 1);
     <script type="text/javascript" src="js/libs/underscore-min.js"></script>
     <script type="text/javascript" src="js/libs/backbone.js"></script>
     <script type="text/javascript" src="../mathjax/MathJax.js?config=TeX-AMS_HTML"></script>
+    <script type="text/javascript" src="js/file-browser/ajax.js"></script>
+    <script type="text/javascript" src="js/file-browser/browser.js"></script>
 
     <!-- modules -->
     <script type="text/javascript" src="js/Timer.js"></script>
@@ -194,6 +198,16 @@ ini_set('display_errors', 1);
                     </form>
 
                     <form id="test-general-form"  action="javascript:void(null);" method="post">
+                        <div id="files-dir">
+                            <div class="browser">
+                                <p class="pfilter">File types filter
+                                    <input type="text" id="txtFilter" value=""/>
+                                    <input type="button" value="Refresh" id="btnrefresh"/>
+                                </p>
+                                <p id="pPathDisplay" class="pPathDisplay">Loading...</p>
+                                <div id="dvContents" class="dvContents">&nbsp;</div>
+                            </div>
+                        </div>
                         <div id="start-message-editor">
                             <div><label for="editor-m1">Лендинг теста</label></div>
                             <div><textarea id="editor-m1" class="wm mce-content-body ontop writemaths tex2jax_ignore" rows="10" cols="60" name="start_message"></textarea></div>

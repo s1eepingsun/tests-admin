@@ -18,6 +18,19 @@ $(function() {
     //инициализация теста, testApp - главный объект админки теста, он сознаёт namespace и запускает тест
     testApp.init();
 
+    //file browser
+    browser({
+        contentsDisplay: document.getElementById("dvContents"),
+        refreshButton: document.getElementById("btnrefresh"),
+        pathDisplay: document.getElementById("pPathDisplay"),
+        filter: document.getElementById("txtFilter"),
+        openFolderOnSelect: true,
+        onSelect: function (item, params) {
+            console.log("You selected: " + item.path);
+        },
+        currentPath: ""
+    });
+
     //Подключение mathjax
     MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
 });
@@ -48,17 +61,18 @@ testApp.init = function() {
 
 //модуль для кэша селекторов jquery
 (function($){
-    $.selector_cache = function (selector) {
-        if (!$.selector_cache[selector]) {
-            $.selector_cache[selector] = $(selector);
+    $.cache = function (selector) {
+        if (!$.cache[selector]) {
+            $.cache[selector] = $(selector);
         }
 
-        return $.selector_cache[selector];
+        return $.cache[selector];
     };
 })(jQuery);
 
 //регистрация хэлперов handlebars.js
 function registerHandlebarsHelpers() {
+
     //для показа индекса, начинающегося с 1
     Handlebars.registerHelper('plus1', function(options) {
         return new Handlebars.SafeString(
