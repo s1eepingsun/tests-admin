@@ -26,7 +26,43 @@ $(function() {
         filter: document.getElementById("txtFilter"),
         openFolderOnSelect: true,
         onSelect: function (item, params) {
-            console.log("You selected: " + item.path);
+            if(item.type !== "folder") {
+                console.log("You selected: " + item.path);
+                var hostname = window.location.hostname;
+                var pathname = window.location.pathname;
+                testApp.file = item.path;
+                var newURL = 'http://' + hostname + pathname + '?file=' + item.path;
+                //newURL = encodeURIComponent(newURL);
+                console.log("newURL:", newURL);
+                //window.location = newURL;
+                console.log('testApp.testTasks', testApp.testTasks);
+                regexp = /(.+)\.\w+/;
+                item.path = regexp.exec(item.path);
+                console.log('after regexp:', item.path[1]);
+                testApp.testTasks.url = 'controllers/adminAjax2.php' + '?file=' + item.path[1];
+
+                testApp.testTasks.fetch({
+                    dataType: 'text',
+                    parse: true,
+                    reset: true,
+                    success: function (collection, response, options) {
+                        console.log('fetch success', collection/*, response*/);
+                        //var newData = $.parseJSON(collection);
+                        //console.log('new data', newData);
+                     },
+                    error: function(collection, response, options){
+                        console.log('fetch error', collection, response);
+                    },
+                    complete: function(xhr, textStatus) {
+                       console.log(textStatus);
+                    }
+                });
+
+                //testApp.testTasks.reset(testApp.testTasks);
+                //testApp.testTasks.sync('read', testApp.testTasks);
+                //testApp.taskListView.render();
+                console.log('testApp.testTasks', testApp.testTasks);
+            }
         },
         currentPath: ""
     });
@@ -39,6 +75,10 @@ $(function() {
 //инициализирует админку теста
 testApp.init = function() {
     console.log('testApp', testApp);
+
+    var filename = window.location.search.slice(1).split('=');
+    console.log('filename:', filename[1]);
+    testApp.file = filename[1];
 
     //инициализация коллекции заданий
     testApp.testTasks = new testApp.TestTasks(phpTestData, {parse: true});

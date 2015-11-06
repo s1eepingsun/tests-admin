@@ -197,13 +197,10 @@ ini_set('display_errors', 1);
                         </div>
                     </form>
 
+                    <div class="current-file">Currently editing: <span></span></div>
                     <form id="test-general-form"  action="javascript:void(null);" method="post">
                         <div id="files-dir">
                             <div class="browser">
-                                <p class="pfilter">File types filter
-                                    <input type="text" id="txtFilter" value=""/>
-                                    <input type="button" value="Refresh" id="btnrefresh"/>
-                                </p>
                                 <p id="pPathDisplay" class="pPathDisplay">Loading...</p>
                                 <div id="dvContents" class="dvContents">&nbsp;</div>
                             </div>

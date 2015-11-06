@@ -33,8 +33,7 @@ testApp.TaskListView = Backbone.View.extend({
 
     //выбор задачи
     selectTask: function(id) {
-        console.log('taskListView id', id);
-        console.log('taskListView this', this);
+        console.log('taskListView id, this', id, this);
         console.log('testApp', testApp.testTasks);
 
         //передаёт обработчик в модель

@@ -65,7 +65,9 @@ testApp.Task = Backbone.Model.extend({
 
     //сохранение задания
     submitTask: function() {
+        this['attributes']['file'] = testApp.file;
         console.log('admin Test sumbitTask', this);
+
 
         this.save(this, {
             wait: true,

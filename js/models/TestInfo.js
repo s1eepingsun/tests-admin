@@ -37,6 +37,7 @@ testApp.TestInfo = Backbone.Model.extend({
 
     //сохранение общей информации о тесте
     submitInfo: function(formDataObj) {
+        formDataObj['file'] = testApp.file;
         console.log('admin Test sumbitTask', this, formDataObj);
 
         this.save(formDataObj, {

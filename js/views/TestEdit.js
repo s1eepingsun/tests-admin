@@ -237,7 +237,7 @@ testApp.TestEdit = Backbone.View.extend({
     //заполняет форму редактирования общих данных о тесте
     showTestInfo: function() {
         var data = testApp.testInfo.attributes;
-        timer = new Timer();
+        var timer = new Timer();
         console.log('showTestInfo ', data);
 
         $.cache('#cke_editor-d1').find('.cke_wysiwyg_frame').contents().find('body').html(data.description);
