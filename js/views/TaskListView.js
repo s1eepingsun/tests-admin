@@ -3,6 +3,8 @@ var testApp = testApp || {};
 testApp.TaskListView = Backbone.View.extend({
     initialize: function() {
         Backbone.on('test:showTask', this.highlightTask);
+        this.model.bind('reset', this.renderAll);
+        _.bindAll(this, 'renderAll');
     },
     template: Handlebars.compile($('#admin-task-list-tmpl').html()),
     events: {
@@ -20,6 +22,19 @@ testApp.TaskListView = Backbone.View.extend({
             $('#qn' + id).addClass('active-task');
         });
         return this;
+    },
+
+    renderAll: function() {
+        var self = this;
+        var tasks = this.models[0].attributes;
+        var template = Handlebars.compile($('#admin-task-list-tmpl').html());
+        var el = $('#left-side-bar');
+        console.log('render all', this, el, tasks);
+        _.each(tasks, function(task) {
+            console.log('self template', el);
+            var rendered = template(task);
+            $(el).html(rendered);
+        })
     },
 
     //клик на задание определяет id и вызывает selectTask

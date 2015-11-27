@@ -112,7 +112,6 @@ testApp.init = function() {
 
 //регистрация хэлперов handlebars.js
 function registerHandlebarsHelpers() {
-
     //для показа индекса, начинающегося с 1
     Handlebars.registerHelper('plus1', function(options) {
         return new Handlebars.SafeString(

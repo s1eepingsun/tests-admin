@@ -17,15 +17,15 @@ function mb_ucfirst($text) {
 
 //set view_number & max_points
 foreach($testData['tasks'] as $key => $task) {
-    $testData['tasks'][$key]['view_number'] = $key + 1 ;
+    $testData['tasks'][$key]['view_number'] = $key + 1;
 
-    $testData['tasks'][$key]['type'] = mb_ucfirst($task['type']) ;
+    $testData['tasks'][$key]['type'] = mb_ucfirst($task['type']);
 
     $taskPoints = 0;
     foreach($task['answer_points'] as $answerPoints) {
         $taskPoints += $answerPoints;
     }
-    $testData['tasks'][$key]['max_points'] = $taskPoints ;
+    $testData['tasks'][$key]['max_points'] = $taskPoints;
 
     //timer data timestamp to array
     if(isset($task['taskTimerData'])) {

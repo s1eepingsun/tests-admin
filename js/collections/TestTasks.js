@@ -8,8 +8,17 @@ testApp.TestTasks = Backbone.Collection.extend({
         this.on("test:selectTask", this.selectTask);
     },
     parse: function(data) {
+        if(typeof data === 'string') {
+            respObj = JSON.parse(data);
+            var tasks = respObj['tasks'];
+            console.log('data is string, parsed:', tasks);
+            return tasks;
+        }
+        //data = JSON.parse(data);
+        console.log('typeof?:',  typeof data, data.length);
         console.log('parsing tests collection', data);
-        data = _.values(data.tasks);
+        //data = _.values(data.tasks);
+        //console.log('after parsing tests collection', data);
         return data;
     },
     selectTask: function(id) {

@@ -23,22 +23,22 @@ if(isset($_REQUEST['_method'])) {
     $method = $_SERVER['REQUEST_METHOD'];
 }
 
-print_r($_REQUEST);
+//print_r($_REQUEST);
 
 if(isset($_REQUEST['model'])) $model = json_decode($_REQUEST['model'], true);
 //$file = '../../newtest2/test-data/' . $model['file'];
 if(isset($model['file'])) {
     $file = '../../newtest2/test-data/' . $model['file'];
-} elseif($_REQUEST != '') {
+} elseif($_REQUEST != '' && isset($_REQUEST['file'])) {
 //    $fileName = json_decode($_REQUEST, true);
     $file = '../../newtest2/test-data/' . $_REQUEST['file'] . '.json';
 } else {
     $file = '../../newtest2/test-data/math1.json';
 }
 
-$file = '../../newtest2/test-data/math1.json';
+//$file = '../../newtest2/test-data/math1.json';
 
-file_put_contents('./test.json', $file);
+//file_put_contents('./test.json', $file);
 
 $shortFile = '../../newtest2/test-data/math1-short.json';
 if(!file_exists($file)) exit("file doesn't exists");
@@ -52,6 +52,8 @@ $uri = $_SERVER['REQUEST_URI'];
 switch($method) {
     case 'GET':
         $data = $testsDB->getTestsData();
+//        $data = json_encode($data);
+        file_put_contents('./test.json', $data);
         echo $data;
         break;
 

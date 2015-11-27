@@ -48,6 +48,7 @@ testApp.Task = Backbone.Model.extend({
         * on delete trying to get id from response will produce an error, so need to take it from model
         * on change it's possible to get id using both methods
         */
+            console.log('task sync');
         var id;
         if(model.id === '') {
             id = Number(JSON.parse(response).id);
