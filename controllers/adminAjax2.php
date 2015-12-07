@@ -36,7 +36,7 @@ if(isset($model['file'])) {
     $file = '../../newtest2/test-data/math1.json';
 }
 
-//$file = '../../newtest2/test-data/math1.json';
+$file = '../../newtest2/test-data/math1.json';
 
 //file_put_contents('./test.json', $file);
 
