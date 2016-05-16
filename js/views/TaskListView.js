@@ -8,13 +8,17 @@ testApp.TaskListView = Backbone.View.extend({
     },
     template: Handlebars.compile($('#admin-task-list-tmpl').html()),
     events: {
-        'click .task-item': 'taskClick'//клик на задачу на сайдбаре
+        'click .task-item': 'taskClick'
     },
 
     //отображает шаблон списка задач
     render: function(id) {
-        var data = this.model;
-        console.log('--------------------- render data', data);
+        console.log('render id', id, this);
+        var data = {models: {attributes: {}}};
+        data.models.attributes = this.model['models'][1]['attributes']['tasks'];
+
+        //data = this.model;
+        console.log('--------------------- render data', id, this.model, data);
         var rendered = this.template(data);
         $(this.el).html(rendered);
         $(this.el).show(0, function() {
@@ -25,16 +29,12 @@ testApp.TaskListView = Backbone.View.extend({
     },
 
     renderAll: function() {
-        var self = this;
-        var tasks = this.models[0].attributes;
+        var data = this;
+        console.log('TaskListView render data', data);
         var template = Handlebars.compile($('#admin-task-list-tmpl').html());
-        var el = $('#left-side-bar');
-        console.log('render all', this, el, tasks);
-        _.each(tasks, function(task) {
-            console.log('self template', el);
-            var rendered = template(task);
-            $(el).html(rendered);
-        })
+        var rendered = template(data);
+        $.cache('#left-side-bar').html(rendered);
+        $.cache('#left-side-bar').find('.task-item').removeClass('active-task');
     },
 
     //клик на задание определяет id и вызывает selectTask

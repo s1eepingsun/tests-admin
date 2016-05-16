@@ -12,6 +12,7 @@ body {
 	background: #d3d3d3;
 }
 
+
 .mainLayout .gameArea, .mainLayout .bottomArea {
     width: 590px;
 }
@@ -64,12 +65,26 @@ body {
 .mainLayout .controlPanel .cpButton {
 	background: #fff;
 }
+.answer-view select, .points-counting-method select {
+    float: left;
+}
+.answer-view label, .points-counting-method label {
+    float: left;
+}
 .controlPanel .disabled {
 	color: #878282;
 }
 .controlPanel .disabled:hover {
 	cursor: default;
 	background: #fff !important;
+}
+.test-title {
+    margin-top: 10px;
+}
+.test-title input {
+    display: inline;
+    width: 350px;
+    margin-left: 5px;
 }
 
 .mainLayout .controlPanel .cpButton:hover, .mainLayout .controlPanel .cpNormal:hover {
@@ -327,6 +342,7 @@ body {
     border-bottom: 1px solid #d3d3d3;
     width: 100%;
     outline: 2px solid #8B8B83;
+    background: #d3d3d3;
 }
 #left-side-bar .task-list {
 	padding: 5px 0 5px 0;
@@ -378,4 +394,22 @@ body {
     text-align: right;
 }
 
+#task-form .collate-to {
+    float: right;
+    width: auto;
+}
+#cke_editor-c1, #cke_editor-c2, #cke_editor-c3, #cke_editor-c4, #cke_editor-c5, #cke_editor-c6 {
+    margin-right: 80px;
+}
 
+#task-form .points-counting-method label,
+#task-form .points-counting-method select,
+#task-form .answer-view label,
+#task-form .answer-view select,
+#task-form .list-form label {
+    font-size: 27px;
+}
+
+#task-form div label + span {
+    float: right;
+}

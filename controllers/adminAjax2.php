@@ -3,10 +3,20 @@
 require_once("../classes/TestsDB2.php");
 
 
-
 //start logs block
+$req = array();
+foreach($_SERVER as $key => $value) {
+    $req[$key] = $value;
+}
+
+$server = array();
+foreach($_SERVER as $key => $value) {
+    $server[$key] = $value;
+}
+$server = json_encode($server);
+
 //        $data = $_SERVER['REQUEST_URI'];
-        $data = $_SERVER['QUERY_STRING'];
+//        $data = $_SERVER['HTTP_REFERER'];
 
     //    $data = $_SERVER['REQUEST_METHOD'];
 //    $data = json_decode($_REQUEST['model'], true);
@@ -14,7 +24,14 @@ require_once("../classes/TestsDB2.php");
     /*$data['file'] = 'asdf';
     $data['file2'] = 'asdf2';
     unset($data['file']);*/
-//    file_put_contents('./test.json', $_REQUEST);
+//    file_put_contents('./test.json', substr($_REQUEST['file'], 4, 11));
+
+/*
+$server = json_encode($server);
+$file = json_decode($_REQUEST['model'], true);
+$file = $file['file'];*/
+//file_put_contents('./test.json', $file);
+
 //end logs block
 
 if(isset($_REQUEST['_method'])) {
@@ -23,24 +40,42 @@ if(isset($_REQUEST['_method'])) {
     $method = $_SERVER['REQUEST_METHOD'];
 }
 
-//print_r($_REQUEST);
 
 if(isset($_REQUEST['model'])) $model = json_decode($_REQUEST['model'], true);
-//$file = '../../newtest2/test-data/' . $model['file'];
-if(isset($model['file'])) {
-    $file = '../../newtest2/test-data/' . $model['file'];
-} elseif($_REQUEST != '' && isset($_REQUEST['file'])) {
-//    $fileName = json_decode($_REQUEST, true);
-    $file = '../../newtest2/test-data/' . $_REQUEST['file'] . '.json';
-} else {
-    $file = '../../newtest2/test-data/math1.json';
-}
 
-$file = '../../newtest2/test-data/math1.json';
+/*if(isset($model['file'])) {
+    $file = '../../math_test/test-data/' . $model['file'];
+} elseif($_REQUEST != '' && isset($_REQUEST['file'])) {
+    $file = '../../math_test/test-data/' . $_REQUEST['file'] . '.json';
+} else {
+    $file = '../../math_test/test-data/math1.json';
+}*/
+
+
+if(isset($_REQUEST['file']) && substr($_REQUEST['file'], 4, 11) === '/test-data/') {
+    $file = '../../math_test/tests/' . $_REQUEST['file'] . '.json';
+//    file_put_contents('./test.json', 'if ' . $file);
+} else if(isset($model['file'])) {
+    $model2 = json_decode($_REQUEST['model'], true);
+    $file = $model2['file'];
+
+    $file = '../../math_test/tests/' . $file;
+//    file_put_contents('./test.json', /*'else if ' .*/ $file);
+} else {
+//    $file = /*'../../math_test/tests/' .*/ $file . '.json';
+    $file = json_decode($_REQUEST['model'], true);
+    $file = $file['file'];
+
+//    file_put_contents('./test.json', /*'else ' .*/ $_REQUEST);
+}
 
 //file_put_contents('./test.json', $file);
 
-$shortFile = '../../newtest2/test-data/math1-short.json';
+//$file = '../../math_test/test-data/math1.json';
+
+//file_put_contents('./test.json', $file);
+
+$shortFile = '../../math_test/test-data/math1-short.json';
 if(!file_exists($file)) exit("file doesn't exists");
 
 $testsDB = new TestsDB();
@@ -53,7 +88,7 @@ switch($method) {
     case 'GET':
         $data = $testsDB->getTestsData();
 //        $data = json_encode($data);
-        file_put_contents('./test.json', $data);
+//        file_put_contents('./test.json', $data);
         echo $data;
         break;
 

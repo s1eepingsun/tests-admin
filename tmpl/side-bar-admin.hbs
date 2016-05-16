@@ -5,15 +5,13 @@
     </tr>
     </thead>
     <tbody>
-    {{#models}}
-    {{#attributes}}
+    {{#each models.attributes}}
     <tr class="task-item" id="qn{{id}}">
         <td>{{#plus1}}{{@index}}{{/plus1}}</td>
         <td>{{id}}</td>
         <td>{{order_num}}</td>
         <td>{{#sum answer_points}} {{.}} {{/sum}}</td>
     </tr>
-    {{/attributes}}
-    {{/models}}
+    {{/each}}
     </tbody>
 </table>

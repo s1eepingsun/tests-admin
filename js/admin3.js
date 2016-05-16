@@ -4,7 +4,7 @@ function onInit(){
     console.log("init");
 }*/
 
-/*$(function() {
+$(function() {
     //подключение редакторов для форм админки
     attachEditors();
 
@@ -18,8 +18,46 @@ function onInit(){
     //инициализация теста, testApp - главный объект админки теста, он сознаёт namespace и запускает тест
     testApp.init();
 
+    //jqueryFileTree
+    $('#file-tree').fileTree({ root: './Server/apache/htdocs/math_test/tests/', script: 'controllers/jqueryFileTree.php' }, function(file) {
+        console.log('file:', file);
+        var regexp = /^.*math_test\/tests\//;
+        file = file.replace(regexp, '');
+        var hostname = window.location.hostname;
+        var pathname = window.location.pathname;
+        var newURL = 'http://' + hostname + pathname + '?file=' + file;
+
+        console.log('newURL', newURL);
+        regexp = /(.+)\.\w+/;
+        itemPath = regexp.exec(file);
+        console.log('after regexp:', itemPath[1]);
+
+        testApp.testTasks.url = 'controllers/adminAjax2.php' + '?file=' + itemPath[1];
+        console.log('testApp.testTasks.url', testApp.testTasks.url);
+
+        window.location.assign(newURL);
+
+        /*testApp.testTasks.fetch({
+            dataType: 'text',
+            parse: true,
+            reset: true,
+            success: function (collection, response, options) {
+                console.log('fetch success', collection/!*, response*!/);
+                //var newData = $.parseJSON(collection);
+                //console.log('new data', newData);
+            },
+            error: function(collection, response, options){
+                console.log('fetch error', collection, response);
+            },
+            complete: function(xhr, textStatus) {
+                console.log(textStatus);
+            }
+        });*/
+    });
+
+
     //file browser
-    browser({
+    /*browser({
         contentsDisplay: document.getElementById("dvContents"),
         refreshButton: document.getElementById("btnrefresh"),
         pathDisplay: document.getElementById("pPathDisplay"),
@@ -49,7 +87,7 @@ function onInit(){
                         console.log('fetch success', collection/!*, response*!/);
                         //var newData = $.parseJSON(collection);
                         //console.log('new data', newData);
-                    },
+                     },
                     error: function(collection, response, options){
                         console.log('fetch error', collection, response);
                     },
@@ -65,79 +103,11 @@ function onInit(){
             }
         },
         currentPath: ""
-    });
-
-    //Подключение mathjax
-    MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
-});*/
-
-$(function() {
-    //подключение редакторов для форм админки
-    attachEditors();
-
-    //регистрация хэлперов handlebars.js
-    registerHandlebarsHelpers();
-
-    //эмуляция REST и JSON
-    Backbone.emulateHTTP = true;
-    Backbone.emulateJSON = true;
-
-    //инициализация теста, testApp - главный объект админки теста, он сознаёт namespace и запускает тест
-    testApp.init();
-
-    //file browser
-    browser({
-        contentsDisplay: document.getElementById("dvContents"),
-        refreshButton: document.getElementById("btnrefresh"),
-        pathDisplay: document.getElementById("pPathDisplay"),
-        filter: document.getElementById("txtFilter"),
-        openFolderOnSelect: true,
-        onSelect: function (item, params) {
-            if(item.type !== "folder") {
-                console.log("You selected: " + item.path);
-                var hostname = window.location.hostname;
-                var pathname = window.location.pathname;
-                testApp.file = item.path;
-                var newURL = 'http://' + hostname + pathname + '?file=' + item.path;
-                //newURL = encodeURIComponent(newURL);
-                console.log("newURL:", newURL);
-                //window.location = newURL;
-                console.log('testApp.testTasks', testApp.testTasks);
-                regexp = /(.+)\.\w+/;
-                item.path = regexp.exec(item.path);
-                console.log('after regexp:', item.path[1]);
-                testApp.testTasks.url = 'controllers/adminAjax2.php' + '?file=' + item.path[1];
-
-                testApp.testTasks.fetch({
-                    dataType: 'text',
-                    parse: true,
-                    reset: true,
-                    success: function (collection, response, options) {
-                        console.log('fetch success', collection/*, response*/);
-                        //var newData = $.parseJSON(collection);
-                        //console.log('new data', newData);
-                    },
-                    error: function(collection, response, options){
-                        console.log('fetch error', collection, response);
-                    },
-                    complete: function(xhr, textStatus) {
-                        console.log(textStatus);
-                    }
-                });
-
-                //testApp.testTasks.reset(testApp.testTasks);
-                //testApp.testTasks.sync('read', testApp.testTasks);
-                //testApp.taskListView.render();
-                console.log('testApp.testTasks', testApp.testTasks);
-            }
-        },
-        currentPath: ""
-    });
+    });*/
 
     //Подключение mathjax
     MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
 });
-
 
 
 //инициализирует админку теста
@@ -314,6 +284,43 @@ function attachEditors() {
         enterMode : CKEDITOR.ENTER_BR
     });
     CKEDITOR.replace( 'editor-a6', {
+        height: 40,
+        toolbarCanCollapse: true,
+        toolbarStartupExpanded : false,
+        enterMode : CKEDITOR.ENTER_BR
+    });
+
+    CKEDITOR.replace( 'editor-c1', {
+        height: 40,
+        toolbarCanCollapse: true,
+        toolbarStartupExpanded : false,
+        enterMode : CKEDITOR.ENTER_BR
+    });
+    CKEDITOR.replace( 'editor-c2', {
+        height: 40,
+        toolbarCanCollapse: true,
+        toolbarStartupExpanded : false,
+        enterMode : CKEDITOR.ENTER_BR
+    });
+    CKEDITOR.replace( 'editor-c3', {
+        height: 40,
+        toolbarCanCollapse: true,
+        toolbarStartupExpanded : false,
+        enterMode : CKEDITOR.ENTER_BR
+    });
+    CKEDITOR.replace( 'editor-c4', {
+        height: 40,
+        toolbarCanCollapse: true,
+        toolbarStartupExpanded : false,
+        enterMode : CKEDITOR.ENTER_BR
+    });
+    CKEDITOR.replace( 'editor-c5', {
+        height: 40,
+        toolbarCanCollapse: true,
+        toolbarStartupExpanded : false,
+        enterMode : CKEDITOR.ENTER_BR
+    });
+    CKEDITOR.replace( 'editor-c6', {
         height: 40,
         toolbarCanCollapse: true,
         toolbarStartupExpanded : false,

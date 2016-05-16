@@ -79,34 +79,63 @@ testApp.TestEdit = Backbone.View.extend({
         //запись данных из формы в объект
         var formDataObj = {};
         formDataObj['answers'] = {};
+        formDataObj['collateAnswers'] = [];
         formDataObj['answer_points'] = {};
         formDataObj['taskTimerData'] = {};
-        var expr1 = /answer[0-9]$/;
+        formDataObj['collateTo'] = [];
+        var expr1 = /^answer[0-9]$/;
         var expr2 = /answer[0-9]_points$/;
+        var expr3 = /^collate-answer[0-9]$/;
+        var expr4 = /^collate-to[0-9]$/;
 
         formDataArr.forEach(function(item) {
-            if(expr1.test(item.name)) {
-                console.log('item', item);
-                if(item.value != '') {
+            if (expr1.test(item.name)) {
+                console.log('expr1 item', item);
+                if (item.value != '') {
                     item.value = that.inlineMathToBlock(item.value);//заменить инлайновый mathjax на блочный
                     formDataObj['answers'][item.name] = item.value;
                 }
+            } else if(expr3.test(item.name)) {
+                console.log('expr3 item', item);
+                if(item.value != '') {
+                    var itemIndex = Number(item.name.substring(14)) - 1;
+                    item.value = that.inlineMathToBlock(item.value);
+                    formDataObj['collateAnswers'][itemIndex] = item.value;
+                }
             } else if(expr2.test(item.name)) {
-                item.value = item.value.replace(/\s+/g, "");//убирает пробелвы в числах
-                formDataObj['answer_points'][item.name] = item.value;
+                //console.log('expr2 item', item);
+                //if (item.value != '' && item.value != 0) {
+                    item.value = item.value.replace(/\s+/g, "");//убирает пробелвы в числах
+                    formDataObj['answer_points'][item.name] = item.value;
+                //}
             } else if(item.name === 'task_hours') {
                 formDataObj['taskTimerData']['task_hours'] = item.value;
             } else if(item.name === 'task_minutes') {
                 formDataObj['taskTimerData']['task_minutes'] = item.value;
             } else if(item.name === 'task_seconds') {
                 formDataObj['taskTimerData']['task_seconds'] = item.value;
-            } else {
+            } else if(!expr4.test(item.name)) {
                 formDataObj[item.name] = item.value;
             }
 
             //formDataObj['taskTimerData'] = timer.timeObToTimestamp(timerObj);
-
         });
+
+        formDataArr.forEach(function(item) {
+            if(expr4.test(item.name)) {
+                console.log('expr4 item', item);
+                var itemIndex = Number(item.name.substring(10)) - 1;
+                if (item.value != '' && item.value != 0 &&
+                    formDataObj['collateAnswers'][itemIndex] &&
+                    formDataObj['collateTo'].indexOf(item.value) == -1 &&
+                    formDataObj['answers']['answer' + item.value]) {
+                    formDataObj['collateTo'][itemIndex] = item.value;
+                }
+            }
+        });
+
+        if(formDataObj['collateAnswers'].length == 0) delete formDataObj['collateAnswers'];
+        if(formDataObj['collateTo'].length == 0) delete formDataObj['collateTo'];
 
         //убирает пробелвы в порядкковом номере
         formDataObj['order_num'] = formDataObj['order_num'].replace(/\s+/g, "");
@@ -175,17 +204,65 @@ testApp.TestEdit = Backbone.View.extend({
     showTask: function(id) {
         console.log('testEdit show Task: ', id);
         console.log('testEdit this: ', this);
-        if(typeof testApp.testTasks.get(id) === 'undefined') return;
-        var data = testApp.testTasks.get(id)['attributes'];
-        console.log('data', data);
+        //if(typeof testApp.testTasks.get(id) === 'undefined') return;
+        //var data = testApp.testTasks.get(id)['attributes'];
+        if(testApp.testTasks.models[0].attributes.tasks) {
+            //var data = testApp.testTasks.models[0].attributes.tasks[id];
+            var data = _.find(testApp.testTasks.models[0].attributes.tasks, function(task) {
+                return task['id'] == id;
+            })
+        } else {
+            data = testApp.testTasks.models[0].attributes[id];
+            if(typeof(data) === 'undefined') {
+                data = testApp.testTasks.models[0].attributes;
+            }
+        }
+
+        console.log('showTask() data', data);
+
+        for(var i = 1; i <= 6; i++) {
+            var ckEditorID = '#cke_editor-a' + i;
+            $(ckEditorID + ' .cke_wysiwyg_frame').contents().find('body').html('');
+
+            ckEditorID = '#cke_editor-c' + i;
+            $(ckEditorID + ' .cke_wysiwyg_frame').contents().find('body').html('');
+        }
 
         for (var property in data.answers) {
             if (data.answers.hasOwnProperty(property)) {
                 var answerID = property.substring(6);
-                var ckEditorID = '#cke_editor-a' + answerID;
+                ckEditorID = '#cke_editor-a' + answerID;
                 $(ckEditorID + ' .cke_wysiwyg_frame').contents().find('body').html(data.answers[property]);
             }
         }
+
+
+        if(data.collateAnswers) {
+            data.collateAnswers.forEach(function(elem, i) {
+                ckEditorID = '#cke_editor-c' + (i + 1);
+                $(ckEditorID + ' .cke_wysiwyg_frame').contents().find('body').html(elem);
+            });
+        }
+
+        if(data.collateTo) {
+            data.collateTo.forEach(function(elem, i) {
+                $('#task-form').find('select[name="collate-to' + (i + 1) + '"]').val(elem);
+            });
+        }
+
+
+        /*for(i = 1; i <= 6; i++) {
+            ckEditorID = '#cke_editor-a' + i;
+            $(ckEditorID + ' .cke_wysiwyg_frame').contents().find('body').html('');
+        }
+
+        for (property in data.answers) {
+            if (data.answers.hasOwnProperty(property)) {
+                answerID = property.substring(6);
+                ckEditorID = '#cke_editor-a' + answerID;
+                $(ckEditorID + ' .cke_wysiwyg_frame').contents().find('body').html(data.answers[property]);
+            }
+        }*/
 
         for(property in data.answer_points) {
             if (data.answer_points.hasOwnProperty(property)) {
@@ -225,6 +302,17 @@ testApp.TestEdit = Backbone.View.extend({
             $.cache('#task-form').find('input[name="task_seconds"]').val('');
         }
 
+        if(data.answers_view) {
+            $.cache('#task-form').find('.answer-view select').val(data.answers_view);
+        } else {
+            $.cache('#task-form').find('.answer-view select').val('default');
+        }
+
+        if(data.points_counting_method) {
+            $.cache('#task-form').find('.points-counting-method select').val(data.points_counting_method);
+        } else {
+            $.cache('#task-form').find('.points-counting-method select').val('default');
+        }
 
         $.cache('#task-form').find('input[name="order_num"]').val(data.order_num);
         $.cache('#task-form').find('input[name="type"]').val(data.type);
@@ -243,6 +331,7 @@ testApp.TestEdit = Backbone.View.extend({
         $.cache('#cke_editor-d1').find('.cke_wysiwyg_frame').contents().find('body').html(data.description);
         $.cache('#cke_editor-d2').find('.cke_wysiwyg_frame').contents().find('body').html(data.in_task_description);
         $.cache('#cke_editor-m1').find('.cke_wysiwyg_frame').contents().find('body').html(data.start_message);
+        $.cache('.test-title').find('input').val(data.test_title);
 
 
         data.testTimerData = timer.timeToObject(data.testTimerData);
@@ -282,8 +371,8 @@ testApp.TestEdit = Backbone.View.extend({
 
     //показывает блок редактирования общих данных о тесте
     showTestInfoBlock: function() {
-        $.cache('#task-form').hide();
-        $.cache('#test-general-form').show();
+        $('#task-form').hide();
+        $('#test-general-form').show();
     },
 
     //показывает блок редактирования задания

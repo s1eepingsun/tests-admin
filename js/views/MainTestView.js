@@ -3,14 +3,18 @@ var testApp = testApp || {};
 testApp.MainTestView = Backbone.View.extend({
     initialize: function () {
         this.activeTaskID = 0;//задача активная в данный момет
-        Backbone.on('test:showTask', this.showTask)
+        Backbone.on('test:showTask', this.showTask);
+
+        this.model.bind('reset', this.renderAll);
+        _.bindAll(this, 'renderAll');
     },
     template: Handlebars.compile($('#test-main-tmpl').html()),
 
     //отображает шаблон детального окна задач
     render: function(id) {
-        var that = this;
-        var data = this.model;
+        //var data = this.model;
+        var data = {models: {attributes: {}}};
+        data.models.attributes = this.model['models'][1]['attributes']['tasks'];
         console.log('main view data', data);
         var rendered = this.template(data);
         $(this.el).html(rendered);
@@ -21,6 +25,14 @@ testApp.MainTestView = Backbone.View.extend({
             Backbone.trigger('test:showTask', id);
         });
         return this;
+    },
+
+    renderAll: function() {
+        var data = this;
+        console.log('MainTestView render data', data);
+        var template = Handlebars.compile($('#test-main-tmpl').html());
+        var rendered = template(data);
+        $('.test-tasks').html(rendered);
     },
 
     //показать задание

@@ -9,6 +9,7 @@ testApp.TestTasks = Backbone.Collection.extend({
     },
     parse: function(data) {
         if(typeof data === 'string') {
+            //console.log('data', data);
             respObj = JSON.parse(data);
             var tasks = respObj['tasks'];
             console.log('data is string, parsed:', tasks);

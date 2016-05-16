@@ -8,16 +8,15 @@ function browser(params){
 
 	var search=function(){
 		if(params.pathDisplay!=null)params.pathDisplay.innerHTML=params.loadingMessage;
-
+		
 		var f=typeof(params.filter)=="object"?params.filter.value:params.filter;
 		var a=new Ajax();
-        console.log('search, params', params);
 		with (a){
 			Method="POST";
 			URL="../tests-admin/classes/search_dir.php";
 			Data="path="+params.currentPath+"&filter="+f+"&data="+params.data;
 			ResponseFormat="json";
-			ResponseHandler=showFiles;
+			ResponseHandler=showFiles(Data);
 			Send();
 		}
 
@@ -27,17 +26,16 @@ function browser(params){
 			showFiles(data);
 		})*/
 	};
-
+	
 	if(params.refreshButton!=null)params.refreshButton.onclick=search;
 
-
 	var showFiles=function(res){
-		console.log('res', res);
-
 		if(params.pathDisplay!=null){
+            //res.currentPath = res.path; //fix
 			var p=res.currentPath;
+			console.log('res', res);
 			p=p.replace(/^(\.\.\/|\.\/|\.)*/g,"");
-
+			
 			if(params.pathDisplay!=null){
 				params.pathDisplay.title=p;
 				if(params.pathMaxDisplay!=null){
@@ -46,10 +44,10 @@ function browser(params){
 				params.pathDisplay.innerHTML="[Rt:\] "+p;
 			}
 		}
-
+		
 		params.contentsDisplay.innerHTML="";
 		var oddeven="odd";
-
+		
 		for (i=0;i<res.contents.length;i++){
 			var f=res.contents[i];
 			var el=document.createElement("p");

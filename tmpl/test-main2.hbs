@@ -1,5 +1,4 @@
-{{#models}}
-{{#attributes}}
+{{#each models.attributes}}
     <div class="single-test-data" id="vn{{id}}">
         <div class="task-time-data">
             {{#each taskTimerData}}
@@ -20,5 +19,4 @@
         </div>
         <div class="clear">&nbsp;</div>
     </div>
-{{/attributes}}
-{{/models}}
+{{/each}}

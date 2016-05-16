@@ -15,14 +15,14 @@ testApp.Task = Backbone.Model.extend({
         var messageArr = [];
 
         _.each(attrs.answer_points, function(elem, index) {
-            console.log('doing validation1', elem, index);
+            //console.log('doing validation1', elem, index);
             if(elem !== '') {
                 if (!$.isNumeric(elem)) messageArr.push('Баллы за ответы должны быть числами');
             }
         });
 
         _.each(attrs.taskTimerData, function(elem, index) {
-            console.log('doing validation1', elem, index);
+            //console.log('doing validation1', elem, index);
             if(elem !== '') {
                 if (!$.isNumeric(elem)) messageArr.push('Время должно быть указано числами');
                 if(elem < 0) messageArr.push('Время не должно содержать отрицательных значений');
@@ -54,10 +54,12 @@ testApp.Task = Backbone.Model.extend({
             id = Number(JSON.parse(response).id);
             testApp.taskListView.render(id);
             testApp.mainTestView.render(id);
+            console.log('model.id === "", id', id);
         } else {
             id = Number(model.id);
             testApp.taskListView.render(id);
             testApp.mainTestView.render(id);
+            console.log('else id', id);
         }
 
         MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
@@ -77,12 +79,13 @@ testApp.Task = Backbone.Model.extend({
             dataType: 'text',
             success: function(model, response, options) {
                 console.log('Successfully saved!', model, response, options);
+                console.log('that.testTasks pre set: ', testApp.testTasks);
                 var newModel = $.parseJSON(response);
                 newModel.order_num = Number(newModel.order_num);
 
                 console.log('response object: ', newModel);
                 testApp.testTasks.set(newModel, {remove: false});
-                console.log(' that.testTasks: ', testApp.testTasks);
+                console.log('that.testTasks: ', testApp.testTasks);
 
                 var successText = 'Данные записаны!';
                 testApp.testEdit.taskSaved(successText);

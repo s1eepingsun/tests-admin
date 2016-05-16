@@ -1,9 +1,12 @@
 <?php
 require_once("classes/TestsDB2.php");
 
+$filename = $_REQUEST['file'];
+//file_put_contents('./test2.json', $_REQUEST);
+
 //получить данные теста
 $testsDB = new TestsDB();
-$testsDB::$file =   '../newtest2/test-data/math1.json';
+$testsDB::$file =   /*'../math_test/test-data/math1.json'*/ '../math_test/tests/' . $filename;
 
 $testData = $testsDB->getTestsData();
 $testData = json_decode($testData, true);

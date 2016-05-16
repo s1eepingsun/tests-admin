@@ -1,12 +1,37 @@
 <?php
 require_once("classes/TestsDB2.php");
-$testsDB = new TestsDB(); 
+$testsDB = new TestsDB();
 
-$testsDB::$file = '../newtest2/test-data/math1.json';
+$filename = $_REQUEST['file'];
+//file_put_contents('./test.json', $_REQUEST['file']);
+
+$regexp = '#^(.*)/#U';
+preg_match($regexp, $filename, $matches);
+$testType = $matches[1];
+
+
+$testsDB::$file = /*'../math_test/test-data/math1.json'*/ '../math_test/tests/' . $filename;
 $data = $testsDB->getTestsData();
+
+//$commonDataPath = '../math_test/tests/' . $testType . '/test-data/common.json';
+$commonDataPath = '../math_test/tests/' . $filename;
+$testsDB::$file = $commonDataPath;
+$commonData = $testsDB->getTestsData();
+$commonData = json_encode($commonData);
+
+
+//file_put_contents('./test3.json', $commonData);
 ?>
 
 <script type="text/javascript">
     var phpTestData = <?=$data?>;
-    console.log('test data php1: ', phpTestData);
+    var commonData = JSON.parse(<?=$commonData?>);
+
+    phpTestData['description'] = commonData['description'];
+    phpTestData['in_task_description'] = commonData['in_task_description'];
+    phpTestData['start_message'] = commonData['start_message'];
+    phpTestData['testTimerData'] = commonData['testTimerData'];
+
+//    console.log('commonData:', commonData);
+    console.log('phpTestData x: ', phpTestData);
 </script> 

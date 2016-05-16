@@ -51,20 +51,14 @@ class TestsDB
             $inTaskDescription = $oldData['in_task_description'];
         }
 
-        //время на тест
-       /* $timerData = array();
-        if(($model['test_hours'] != 0 || $model['test_minutes'] != 0 || $model['test_seconds'] != 0) &&
-            ($model['test_hours'] != '' || $model['test_minutes'] != '' || $model['test_seconds'] != '')) {
-            $timerData['h'] = intval($model['test_hours']);
-            $timerData['m'] = intval($model['test_minutes']);
-            $timerData['s'] = intval($model['test_seconds']);
-        } else if(isset($oldData['testTimerData'])) {
-            $timerData = $oldData['testTimerData'];
+        //название теста
+        if($model['test_title'] != '') {
+            $testTitle = $model['test_title'];
+        } else if(!isset($oldData['test_title'])) {
+            $testTitle = '';
         } else {
-            $timerData['h'] = 0;
-            $timerData['m'] = 30;
-            $timerData['s'] = 0;
-        }*/
+            $testTitle = $oldData['test_title'];
+        }
 
         //если время на выполнение теста не валидное, удалить его
         foreach($model['testTimerData'] as $key => $value) {
@@ -86,6 +80,7 @@ class TestsDB
         $oldData['start_message'] = $startMessage;
         $oldData['description'] = $description;
         $oldData['in_task_description'] = $inTaskDescription;
+        $oldData['test_title'] = $testTitle;
         $oldData['testTimerData'] = $model['testTimerData'];
         unset($oldData['timerData']);
 
@@ -170,6 +165,18 @@ class TestsDB
         $model['taskTimerData'] = $timestamp;
         if(!is_numeric($model['taskTimerData']) || $model['taskTimerData'] <= 0) unset($model['taskTimerData']);
 
+        if(isset($model['answers_view'])) {
+            if($model['answers_view'] === 'default') {
+                unset($model['answers_view']);
+            } else {
+                $model[$model['answers_view'] . '_answer_view'] = 1;
+            }
+        }
+
+
+        if($model['points_counting_method'] == 'default') {
+            unset($model['points_counting_method']);
+        }
 
         $oldData['tasks'][$id] = $model;
 
