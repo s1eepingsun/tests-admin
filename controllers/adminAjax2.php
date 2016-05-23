@@ -9,11 +9,11 @@ foreach($_SERVER as $key => $value) {
     $req[$key] = $value;
 }
 
-$server = array();
+/*$server = array();
 foreach($_SERVER as $key => $value) {
     $server[$key] = $value;
 }
-$server = json_encode($server);
+$server = json_encode($server);*/
 
 //        $data = $_SERVER['REQUEST_URI'];
 //        $data = $_SERVER['HTTP_REFERER'];
@@ -25,6 +25,8 @@ $server = json_encode($server);
     $data['file2'] = 'asdf2';
     unset($data['file']);*/
 //    file_put_contents('./test.json', substr($_REQUEST['file'], 4, 11));
+    file_put_contents('./test2.json', $_REQUEST);
+//    file_put_contents('./test2.json', $server);
 
 /*
 $server = json_encode($server);
@@ -53,20 +55,24 @@ if(isset($_REQUEST['model'])) $model = json_decode($_REQUEST['model'], true);
 
 
 if(isset($_REQUEST['file']) && substr($_REQUEST['file'], 4, 11) === '/test-data/') {
-    $file = '../../math_test/tests/' . $_REQUEST['file'] . '.json';
-//    file_put_contents('./test.json', 'if ' . $file);
+//    $file = '../../math_test/tests/' . $_REQUEST['file'] . '.json';
+//    $file = '../../math_test/' . $_REQUEST['file'] . '.json';
+    $file = 'c://v6-vagrant/v6-env/repos/v6-apps/tests/frontend/tests/' . $_REQUEST['file'] . '.json';
+    file_put_contents('./test.json', 'if ' . $file);
 } else if(isset($model['file'])) {
     $model2 = json_decode($_REQUEST['model'], true);
     $file = $model2['file'];
 
-    $file = '../../math_test/tests/' . $file;
-//    file_put_contents('./test.json', /*'else if ' .*/ $file);
+//    $file = '../../math_test/tests/' . $file;
+//    $file = '../../math_test/' . $file;
+    $file = 'c://v6-vagrant/v6-env/repos/v6-apps/tests/frontend/tests/' . $file;
+    file_put_contents('./test.json', 'else if ' . $file);
 } else {
 //    $file = /*'../../math_test/tests/' .*/ $file . '.json';
     $file = json_decode($_REQUEST['model'], true);
     $file = $file['file'];
 
-//    file_put_contents('./test.json', /*'else ' .*/ $_REQUEST);
+    file_put_contents('./test.json', 'else ' /*. $_REQUEST*/);
 }
 
 //file_put_contents('./test.json', $file);

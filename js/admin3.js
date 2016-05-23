@@ -19,9 +19,10 @@ $(function() {
     testApp.init();
 
     //jqueryFileTree
-    $('#file-tree').fileTree({ root: './Server/apache/htdocs/math_test/tests/', script: 'controllers/jqueryFileTree.php' }, function(file) {
+    $('#file-tree').fileTree({ root: './v6-vagrant/v6-env/repos/v6-apps/tests/frontend/tests/' /*'./Server/apache/htdocs/math_test/tests/'*/, script: 'controllers/jqueryFileTree.php' }, function(file) {
         console.log('file:', file);
-        var regexp = /^.*math_test\/tests\//;
+        //var regexp = /^.*math_test\/tests\//;
+        var regexp = /^.*frontend\/tests\//;
         file = file.replace(regexp, '');
         var hostname = window.location.hostname;
         var pathname = window.location.pathname;

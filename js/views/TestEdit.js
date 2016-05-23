@@ -318,6 +318,7 @@ testApp.TestEdit = Backbone.View.extend({
         $.cache('#task-form').find('input[name="type"]').val(data.type);
         $.cache('#cke_editor1').find('.cke_wysiwyg_frame').contents().find('body').html(data.task_content);
         $.cache('#task-form').find('input[type="hidden"]').val(data.id);
+        $.cache('#task-form').find('input[name="soundfile"]').val(data.soundfile);
 
         testApp.testEdit.showTaskEditBlock();
     },
@@ -332,7 +333,6 @@ testApp.TestEdit = Backbone.View.extend({
         $.cache('#cke_editor-d2').find('.cke_wysiwyg_frame').contents().find('body').html(data.in_task_description);
         $.cache('#cke_editor-m1').find('.cke_wysiwyg_frame').contents().find('body').html(data.start_message);
         $.cache('.test-title').find('input').val(data.test_title);
-
 
         data.testTimerData = timer.timeToObject(data.testTimerData);
         $.cache('#test-general-form').find('input[name="test_hours"]').val(data.testTimerData.h);

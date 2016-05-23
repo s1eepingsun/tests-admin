@@ -84,7 +84,7 @@ class TestsDB
         $oldData['testTimerData'] = $model['testTimerData'];
         unset($oldData['timerData']);
 
-        $newData = json_encode($oldData);
+        $newData = json_encode($oldData, JSON_UNESCAPED_UNICODE);
 
         //записывает данные в файл
         if(file_put_contents($file, $newData)) {
@@ -183,7 +183,7 @@ class TestsDB
         //возвращаемая модель для backbone.js
         $taskToReturn = json_encode($oldData['tasks'][$id]);
 
-        $newData = json_encode($oldData);
+        $newData = json_encode($oldData, JSON_UNESCAPED_UNICODE);
 
         //write new data
         $fp = fopen($file, "w");
@@ -209,7 +209,7 @@ class TestsDB
 
         unset($oldData['tasks'][$id]);
 
-        $newData = json_encode($oldData);
+        $newData = json_encode($oldData, JSON_UNESCAPED_UNICODE);
 
         $fp = fopen($file, "w");
         if(fwrite($fp, $newData)) {
@@ -250,7 +250,7 @@ class TestsDB
 
         //записать новые данные
 //        $oldData['tasks'] = $sorted;
-        $newData = json_encode($oldData);
+        $newData = json_encode($oldData, JSON_UNESCAPED_UNICODE);
         if(file_put_contents($file, $newData)) {
 //            echo ' order_num values reset successfully! <br>';
         }  else {
@@ -276,7 +276,7 @@ class TestsDB
             unset($shortData['description']);
             unset($shortData['in_task_description']);
         }
-        $shortData = json_encode($shortData);
+        $shortData = json_encode($shortData, JSON_UNESCAPED_UNICODE);
 
         if(file_put_contents($shortFile, $shortData)) {
 //            echo 'short version of test file has been created!<br>';

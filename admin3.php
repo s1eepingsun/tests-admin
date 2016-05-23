@@ -202,6 +202,11 @@ ini_set('display_errors', 1);
                                 <div class="col-xs-6 col-sm-7 col-xl-7"><input type="text" class="form-input form-control" name="order_num" maxlength="10" size="6"></div>
                             </div>
                         </div>
+                        <div style="display: none">
+                            <input type="hidden" name="soundfile" maxlength="10" size="6" value="0">
+                        </div>
+
+
                         <div class="answer-view">
                             <div class="row">
                                 <div class="col-xs-6 col-sm-5 col-xl-5"><label>Отображение ответов</label></div>

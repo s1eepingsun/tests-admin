@@ -10,11 +10,15 @@ preg_match($regexp, $filename, $matches);
 $testType = $matches[1];
 
 
-$testsDB::$file = /*'../math_test/test-data/math1.json'*/ '../math_test/tests/' . $filename;
+//$testsDB::$file = '../math_test/tests/' . $filename;
+$testsDB::$file = 'c://v6-vagrant/v6-env/repos/v6-apps/tests/frontend/tests/' . $filename;
+//$testsDB::$file = '../../../../v6-vagrant/v6-env/repos/v6-apps/tests/frontend/tests/' . $filename;
 $data = $testsDB->getTestsData();
 
 //$commonDataPath = '../math_test/tests/' . $testType . '/test-data/common.json';
-$commonDataPath = '../math_test/tests/' . $filename;
+//$commonDataPath = '../math_test/tests/' . $filename;
+$commonDataPath = 'c://v6-vagrant/v6-env/repos/v6-apps/tests/frontend/tests/' . $filename;
+
 $testsDB::$file = $commonDataPath;
 $commonData = $testsDB->getTestsData();
 $commonData = json_encode($commonData);
