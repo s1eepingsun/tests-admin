@@ -15,7 +15,9 @@ testApp.TaskListView = Backbone.View.extend({
     render: function(id) {
         console.log('render id', id, this);
         var data = {models: {attributes: {}}};
-        data.models.attributes = this.model['models'][1]['attributes']['tasks'];
+        //data.models.attributes = this.model['models'][1]['attributes']['tasks'];
+        var lastElemIndex = this.model['models'].length - 1;
+        data.models.attributes = this.model['models'][lastElemIndex]['attributes']['tasks'];
 
         //data = this.model;
         console.log('--------------------- render data', id, this.model, data);

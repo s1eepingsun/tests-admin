@@ -18,9 +18,10 @@ testApp.TestEdit = Backbone.View.extend({
 
         $.when(this.a1).done(function() {
             that.showTestInfo();
+            that.applyCorrespondingViewChanges();
         });
 
-        Backbone.on('test:showTask', this.showTask)
+        Backbone.on('test:showTask', this.showTask);
     },
     events: {
         'click #task-form input[type="submit"]': 'submitTask',
@@ -28,7 +29,8 @@ testApp.TestEdit = Backbone.View.extend({
         'click #test-general-form input[type="submit"]': 'submitTestInfo',
         'click .create-new-task': 'clearTaskBlock',//clears all data, id & shows task block
         'click .edit-task-block': 'showTaskEditBlock',
-        'click .edit-test-info': 'showTestInfoBlock'
+        'click .edit-test-info': 'showTestInfoBlock',
+        'change .answer-view select': 'changeAnswersView'
     },
 
     //удаляет задание
@@ -38,8 +40,19 @@ testApp.TestEdit = Backbone.View.extend({
         console.log('Delete id: ', id);
         console.log('this model: ', testApp.testTasks.get(id));
         var model = testApp.testTasks.get(id);
+
+
+        /*var modelsLastIndex = testApp.testTasks.models.length - 1;
+        var tasks = testApp.testTasks.models[modelsLastIndex].attributes.tasks;
+
+        var model = _.find(tasks, function(model) {
+            return model.id == id;
+        });
+        console.log('model2', model);*/
+
+
         if(typeof model === 'undefined') {
-            var errorText = 'Ошибка: У сохраняемой модели нет id';
+            var errorText = 'Ошибка: model === undefined';
             this.showInvalidTask(errorText);
             return;
         }
@@ -203,25 +216,31 @@ testApp.TestEdit = Backbone.View.extend({
     //заполняет форму редактирования задания данными задания id
     showTask: function(id) {
         console.log('testEdit show Task: ', id);
-        console.log('testEdit this: ', this);
+        console.log('testEdit testApp: ', testApp);
         //if(typeof testApp.testTasks.get(id) === 'undefined') return;
         //var data = testApp.testTasks.get(id)['attributes'];
+        var data;
+        var lastElemIndex = testApp.testTasks.models.length - 1;
+
         if(testApp.testTasks.models[0].attributes.tasks) {
-            //var data = testApp.testTasks.models[0].attributes.tasks[id];
-            var data = _.find(testApp.testTasks.models[0].attributes.tasks, function(task) {
+            data = _.find(testApp.testTasks.models[0].attributes.tasks, function(task) {
                 return task['id'] == id;
             })
-        } else {
+        } else if(testApp.testTasks.models[0].attributes[id]) {
             data = testApp.testTasks.models[0].attributes[id];
-            if(typeof(data) === 'undefined') {
-                data = testApp.testTasks.models[0].attributes;
-            }
+        } else if(testApp.testTasks.models[lastElemIndex].attributes.tasks) {
+            data = _.find(testApp.testTasks.models[lastElemIndex].attributes.tasks, function(task) {
+                return task['id'] == id;
+            })
+        } else if(typeof(data) === 'undefined') {
+            data = testApp.testTasks.models[0].attributes;
         }
 
         console.log('showTask() data', data);
 
+        var ckEditorID;
         for(var i = 1; i <= 6; i++) {
-            var ckEditorID = '#cke_editor-a' + i;
+            ckEditorID = '#cke_editor-a' + i;
             $(ckEditorID + ' .cke_wysiwyg_frame').contents().find('body').html('');
 
             ckEditorID = '#cke_editor-c' + i;
@@ -379,6 +398,22 @@ testApp.TestEdit = Backbone.View.extend({
     showTaskEditBlock: function() {
         $.cache('#task-form').show();
         $.cache('#test-general-form').hide();
+    },
+
+    changeAnswersView: function(e) {
+        this.applyCorrespondingViewChanges();
+    },
+
+    applyCorrespondingViewChanges: function() {
+        var answersView = $.cache('#task-form').find('select[name="answers_view"]').val();
+
+        switch(answersView) {
+            case 'collate':
+                $.cache('.collate-answers').show();
+                break;
+            default:
+                $.cache('.collate-answers').hide();
+        }
     },
 
     //обнуляет данные в форме редактирования задания (включая id)

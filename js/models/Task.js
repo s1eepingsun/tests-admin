@@ -53,12 +53,10 @@ testApp.Task = Backbone.Model.extend({
         if(model.id === '') {
             id = Number(JSON.parse(response).id);
             testApp.taskListView.render(id);
-            testApp.mainTestView.render(id);
             console.log('model.id === "", id', id);
         } else {
             id = Number(model.id);
             testApp.taskListView.render(id);
-            testApp.mainTestView.render(id);
             console.log('else id', id);
         }
 
@@ -71,7 +69,6 @@ testApp.Task = Backbone.Model.extend({
         this['attributes']['file'] = testApp.file;
         console.log('admin Test sumbitTask', this);
 
-
         this.save(this, {
             wait: true,
             validate: true,
@@ -79,9 +76,21 @@ testApp.Task = Backbone.Model.extend({
             dataType: 'text',
             success: function(model, response, options) {
                 console.log('Successfully saved!', model, response, options);
+                console.log('response', response);
                 console.log('that.testTasks pre set: ', testApp.testTasks);
                 var newModel = $.parseJSON(response);
                 newModel.order_num = Number(newModel.order_num);
+
+                var modelsLastIndex = testApp.testTasks.models.length - 1;
+                var tasks = testApp.testTasks.models[modelsLastIndex].attributes.tasks;
+
+                for(var taskIndex in tasks) {
+                    if(!tasks.hasOwnProperty(taskIndex)) continue;
+
+                    if(tasks[taskIndex].id == newModel.id) {
+                        tasks[taskIndex] = newModel;
+                    }
+                }
 
                 console.log('response object: ', newModel);
                 testApp.testTasks.set(newModel, {remove: false});

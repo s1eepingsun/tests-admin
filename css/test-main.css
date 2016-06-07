@@ -319,13 +319,16 @@ body {
     margin-bottom: 15%;
 }
 
+.collate-answers {
+    display: none;
+}
+
 /** side bar */
 #left-side-bar {
 	position: absolute;
     left: -177px;
     width: 171px;
     border: none;
-	background: #d3d3d3;
 	/*height: 752px;*/
 	height: 812px;
     display: none;
@@ -342,7 +345,7 @@ body {
     border-bottom: 1px solid #d3d3d3;
     width: 100%;
     outline: 2px solid #8B8B83;
-    background: #d3d3d3;
+    background: #eee;
 }
 #left-side-bar .task-list {
 	padding: 5px 0 5px 0;

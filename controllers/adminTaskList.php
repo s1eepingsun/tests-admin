@@ -8,7 +8,8 @@ $filename = $_REQUEST['file'];
 require_once("classes/TestsDB2.php");
 
 $testsDB = new TestsDB();
-$testsDB::$file =   /*'../math_test/test-data/math1.json'*/ '../math_test/tests/' . $filename;
+//$testsDB::$file = '../math_test/tests/' . $filename;
+$testsDB::$file = 'c://v6-vagrant/v6-env/repos/v6-apps/tests/frontend/tests/' . $filename;
 
 $testData = $testsDB->getTestsData();
 $testData = json_decode($testData, true);

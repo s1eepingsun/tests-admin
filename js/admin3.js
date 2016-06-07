@@ -131,8 +131,8 @@ testApp.init = function() {
     testApp.taskListView.setElement($('#left-side-bar'));
 
     //подключение View детального показа задач
-    testApp.mainTestView = new testApp.MainTestView({model: testApp.testTasks});
-    testApp.mainTestView.setElement($('.test-tasks'));
+    //testApp.mainTestView = new testApp.MainTestView({model: testApp.testTasks});
+    //testApp.mainTestView.setElement($('.test-tasks'));
 
     //подключение View редактирования теста
     testApp.testEdit = new testApp.TestEdit({model: testApp.testInfo});

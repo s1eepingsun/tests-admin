@@ -8,8 +8,8 @@ ini_set('display_errors', 1);
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Tests Admin</title>
     <link rel="icon" href="http://getbootstrap.com/favicon.ico">
-    <script src="./Example_files/openapi.js" type="text/javascript"></script>
-    <script type="text/javascript" src="./Example_files/public-main.min.js"></script>
+<!--    <script src="./Example_files/openapi.js" type="text/javascript"></script>-->
+<!--    <script type="text/javascript" src="./Example_files/public-main.min.js"></script>-->
     <!-- <script type="text/javascript" src="./Example_files/shared-main.js"></script>-->
     <!-- <script type="text/javascript" src="./Example_files/lang.ru.js"></script>-->
 
@@ -22,6 +22,7 @@ ini_set('display_errors', 1);
     <link href="css/file-browser.css" rel="stylesheet" type="text/css">
     <link href="css/jqueryFileTree.css" rel="stylesheet" type="text/css">
 
+    <script type="text/javascript" src="js/libs/jquery-1.11.3.min.js"></script>
 
     <!-- assigning php data to js variable -->
     <?php include 'controllers/testDataToJS.php'; ?>
@@ -63,73 +64,10 @@ ini_set('display_errors', 1);
 
 <div class="container">
     <div class="row">
-            <div class="col-xs-6 col-sm-2" id="left-side-bar">
+            <div class="col-xs-2 col-sm-2" id="left-side-bar">
                 <?php include 'controllers/adminTaskList.php'; ?>
             </div>
-            <div class="col-xs-6 col-sm-5 test-preview">
-                <!-- TOP LINKS -->
-                <div class="titleBand">
-                    <div class="titleBandInner">
-                        <table cellspacing="0" cellpadding="0" width="100%" border="0">
-                            <tbody><tr>
-                                <td width="1%" style="white-space: nowrap;">
-                            <span class="titleBandLink" id="title">Математика</span></td>
-
-                                <td>&nbsp;</td>
-
-                                <td width="1%" align="center" style="white-space: nowrap;">
-                            <span class="titleBandLink" id="showDescription">
-                                Описаниие
-                            </span>
-                                </td>
-
-                                <td>&nbsp;</td>
-
-                                <td width="1%" align="center" style="white-space: nowrap;">
-                            <span id="gbShow" class="titleBandLink">
-                                Вопросы и отзывы
-                            </span>
-                                </td>
-
-                                <td>&nbsp;</td>
-
-                                <td width="1%" align="right" style="white-space: nowrap;">
-                                    <a href="http://logic-games.spb.ru/" class="titleBandLink">
-                                        Перейти на другие игры
-                                    </a>
-                                </td>
-                            </tr>
-                            </tbody></table>
-                    </div>
-                </div>
-
-                <!-- TOP BUTTONS -->
-                <div class="controlPanel top-c-panel nonSelectable">
-                    <table class="controlPanelLayout" cellpadding="0">
-                        <tbody>
-                            <tr>
-                                <td id="tb-prev-task" class="cpButton cpNormal nonSelectable disabled">Предыдущий вопрос</td>
-                                <td id="tb-next-task" class="cpButton cpNormal nonSelectable  disabled">Следующий вопрос</td>
-                                <td id="tbNewGameContainer" class="cpButton cpNormal nonSelectable cpKillHover">
-                                    <table style="width: 100%; height: 100%;" cellspacing="0" cellpadding="0">
-                                        <tbody><tr>
-                                            <td id="tb-new-test" class="cpNormal roundedRight4px">Новый тест</td>
-                                        </tr>
-                                        </tbody></table>
-                                </td>
-                                <td id="tb-finish-test" class="cpButton cpNormal nonSelectable disabled">Закончить тест</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <!-- GAME FIELD !! важно чтобы был див с таким айдишников и центрированием, относительного него и будет центрироваться блок с авторизацией !!-->
-                <div id="field">
-                    <?php include 'controllers/adminMain.php'; ?>
-                </div>
-            </div>
-
-            <div class="col-xs-6 col-sm-5 editors-block">
+            <div class="col-xs-8 col-sm-8 editors-block" style="border-right: 1px solid black; max-width: 800px;">
                 <div class="result">
                     <!--<h3>Новое задание для теста:</h3>-->
                     <button type="button" class="btn btn-primary create-new-task">Создать новое задание</button>
@@ -152,44 +90,44 @@ ini_set('display_errors', 1);
                         <div><label for="editor-a6">Вариант ответа 6</label></div>
                         <div><textarea id="editor-a6" class="wm mce-content-body ontop writemaths tex2jax_ignore" rows="10" cols="60" name="answer6"></textarea></div>
 
-                        <div><label for="editor-c1">Вариант для сопоставления 1</label><span>№ вопроса</span></div>
-                        <div>
-                            <select class="collate-to" size="1" name="collate-to1"><option value="1" selected>1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option>
-                            </select>
-<!--                        <input type="text" class="form-input form-control collate-to" name="collate-to1" maxlength="4" size="2" value="">-->
-                            <textarea id="editor-c1" class="wm mce-content-body ontop writemaths tex2jax_ignore" rows="10" cols="60" name="collate-answer1"></textarea>
+                        <div class="collate-answers">
+                            <div><label for="editor-c1">Вариант для сопоставления 1</label><span>№ вопроса</span></div>
+                            <div>
+                                <select class="collate-to" size="1" name="collate-to1"><option value="1" selected>1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option>
+                                </select>
+                                <textarea id="editor-c1" class="wm mce-content-body ontop writemaths tex2jax_ignore" rows="10" cols="60" name="collate-answer1"></textarea>
+                            </div>
+                            <div><label for="editor-c2">Вариант для сопоставления 2</label></div>
+                            <div>
+                                <select class="collate-to" size="1" name="collate-to2"><option value="1" selected>1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option>
+                                </select>
+                                <textarea id="editor-c2" class="wm mce-content-body ontop writemaths tex2jax_ignore" rows="10" cols="60" name="collate-answer2"></textarea>
+                            </div>
+                            <div><label for="editor-c3">Вариант для сопоставления 3</label></div>
+                            <div>
+                                <select class="collate-to" size="1" name="collate-to3"><option value="1" selected>1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option>
+                                </select>
+                                <textarea id="editor-c3" class="wm mce-content-body ontop writemaths tex2jax_ignore" rows="10" cols="60" name="collate-answer3"></textarea>
+                            </div>
+                            <div><label for="editor-c4">Вариант для сопоставления 4</label></div>
+                            <div>
+                                <select class="collate-to" size="1" name="collate-to4"><option value="1" selected>1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option>
+                                </select>
+                                <textarea id="editor-c4" class="wm mce-content-body ontop writemaths tex2jax_ignore" rows="10" cols="60" name="collate-answer4"></textarea>
+                            </div>
+                            <div><label for="editor-c5">Вариант для сопоставления 5</label></div>
+                            <div>
+                                <select class="collate-to" size="1" name="collate-to5"><option value="1" selected>1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option>
+                                </select>
+                                <textarea id="editor-c5" class="wm mce-content-body ontop writemaths tex2jax_ignore" rows="10" cols="60" name="collate-answer5"></textarea>
+                            </div>
+                            <div><label for="editor-c6">Вариант для сопоставления 6</label></div>
+                            <div>
+                                <select class="collate-to" size="1" name="collate-to6"><option value="1" selected>1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option>
+                                </select>
+                                <textarea id="editor-c6" class="wm mce-content-body ontop writemaths tex2jax_ignore" rows="10" cols="60" name="collate-answer6"></textarea>
+                            </div>
                         </div>
-                        <div><label for="editor-c2">Вариант для сопоставления 2</label></div>
-                        <div>
-                            <select class="collate-to" size="1" name="collate-to2"><option value="1" selected>1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option>
-                            </select>
-                            <textarea id="editor-c2" class="wm mce-content-body ontop writemaths tex2jax_ignore" rows="10" cols="60" name="collate-answer2"></textarea>
-                        </div>
-                        <div><label for="editor-c3">Вариант для сопоставления 3</label></div>
-                        <div>
-                            <select class="collate-to" size="1" name="collate-to3"><option value="1" selected>1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option>
-                            </select>
-                            <textarea id="editor-c3" class="wm mce-content-body ontop writemaths tex2jax_ignore" rows="10" cols="60" name="collate-answer3"></textarea>
-                        </div>
-                        <div><label for="editor-c4">Вариант для сопоставления 4</label></div>
-                        <div>
-                            <select class="collate-to" size="1" name="collate-to4"><option value="1" selected>1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option>
-                            </select>
-                            <textarea id="editor-c4" class="wm mce-content-body ontop writemaths tex2jax_ignore" rows="10" cols="60" name="collate-answer4"></textarea>
-                        </div>
-                        <div><label for="editor-c5">Вариант для сопоставления 5</label></div>
-                        <div>
-                            <select class="collate-to" size="1" name="collate-to5"><option value="1" selected>1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option>
-                            </select>
-                            <textarea id="editor-c5" class="wm mce-content-body ontop writemaths tex2jax_ignore" rows="10" cols="60" name="collate-answer5"></textarea>
-                        </div>
-                        <div><label for="editor-c6">Вариант для сопоставления 6</label></div>
-                        <div>
-                            <select class="collate-to" size="1" name="collate-to6"><option value="1" selected>1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option>
-                            </select>
-                            <textarea id="editor-c6" class="wm mce-content-body ontop writemaths tex2jax_ignore" rows="10" cols="60" name="collate-answer6"></textarea
-                        </div>
-
 
                         <div class="list-form">
                             <div class="row">
@@ -222,6 +160,8 @@ ini_set('display_errors', 1);
                                         <option value="input1">Input</option>
                                         <option value="sequence">Sequence</option>
                                         <option value="sequence-abv">Sequence АБВ</option>
+                                        <option value="sequence-abv">Sequence АБВ</option>
+                                        <option value="right-side">Ответы справа</option>
                                     </select>
                                 </div>
                             </div>
@@ -280,16 +220,13 @@ ini_set('display_errors', 1);
 
                     </div>
 
-                    <div class="current-file">Currently editing: <span></span></div>
                     <form id="test-general-form"  action="javascript:void(null);" method="post">
                         <div id="files-dir">
                             <!--<div class="browser">
                                 <p id="pPathDisplay" class="pPathDisplay">Loading...</p>
                                 <div id="dvContents" class="dvContents">&nbsp;</div>
                             </div>-->
-                            <div id="file-tree">
 
-                            </div>
                         </div>
                         <div id="start-message-editor">
                             <div><label for="editor-m1">Лендинг теста</label></div>
@@ -322,6 +259,13 @@ ini_set('display_errors', 1);
                     </form>
 
                 </div>
+
+                <div class="col-xs-2 col-sm-2 editor-block2">
+                    <div id="file-tree">
+
+                    </div>
+                </div>
+
             </div>
 
     </div><!--row end-->
